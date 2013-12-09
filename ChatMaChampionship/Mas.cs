@@ -124,7 +124,61 @@ namespace ChatMaChampionship
             }
         }
 
-        public static unsafe IEnumerable<double> MovingAveragerightfold(double[] listArray, int period) {
+        public static unsafe IEnumerable<double> MovingAveragerightfoldEvil(double[] listArray, int period) {
+            var length = listArray.Length;
+            var total = period < length ? period : length;
+            var resultArray = new double[length];
+            var resultIndex = 0;
+            fixed (double* list = listArray, result = resultArray) {
+                var index = 0;
+                var sum = 0.0;
+                var waste = new double[total];
+                var fraction = 1.0 / total;
+                for (var i = 0; i < length; ++i) {
+                    var d = list[i];
+                    sum += d * fraction;
+                    var offset = index % total;
+                    if (index >= total) {
+                        sum -= waste[offset];
+                    }
+                    waste[offset] = d * fraction;
+                    if (index >= total - 1) {
+                        result[resultIndex++] = sum;
+                    }
+                    index++;
+                }
+            }
+            return new ArraySegment<double>(resultArray, 0, resultIndex);
+        }
+
+        public static unsafe IEnumerable<double> MovingAveragerightfoldMoreEvil(double[] listArray, int period) {
+            var length = listArray.Length;
+            var total = period < length ? period : length;
+            var resultArray = new double[length];
+            var resultIndex = 0;
+            fixed (double* list = listArray, result = resultArray) {
+                var index = 0;
+                var sum = 0.0;
+                var waste = stackalloc double[total];
+                var fraction = 1.0 / total;
+                for (var i = 0; i < length; ++i) {
+                    var d = list[i];
+                    sum += d * fraction;
+                    var offset = index % total;
+                    if (index >= total) {
+                        sum -= waste[offset];
+                    }
+                    waste[offset] = d * fraction;
+                    if (index >= total - 1) {
+                        result[resultIndex++] = sum;
+                    }
+                    index++;
+                }
+            }
+            return new ArraySegment<double>(resultArray, 0, resultIndex);
+        }
+
+        public static unsafe IEnumerable<double> MovingAveragerightfoldMostEvil(double[] listArray, int period) {
             var length = listArray.Length;
             var total = period < length ? period : length;
             var resultArray = new double[length + total];
