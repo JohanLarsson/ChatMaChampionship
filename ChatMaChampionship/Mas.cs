@@ -124,72 +124,30 @@ namespace ChatMaChampionship
             }
         }
 
-        public static IEnumerable<double> MovingAverageHeap(double[] list, int period)
-        {
-            var result = new double[1 + list.Length];
-            var doubles = new double[period];
+        public static unsafe IEnumerable<double> MovingAveragerightfold(double[] listArray, int period) {
             var length = list.Length;
-            double fraction = 1.0 / period;
-            double sum = 0;
-            for (int i = 0; i < period; i++)
-            {
-                double @double = list[i] * fraction;
-                doubles[i] = @double;
-                sum += @double;
-            }
-            result[0] = sum;
-            int j = period;
-            int k = 0;
-            int index = 0;
-            while (j < length)
-            {
-                double old = doubles[index];
-                sum -= old;
-                double @new = list[j] * fraction;
-                doubles[index] = @new;
-                sum += @new;
-                result[++k] = sum;
-                j++;
-                index++;
-                if (index == period)
-                    index = 0;
-            }
-            return result;
-        }
-        public static unsafe IEnumerable<double> MovingAverageStack(double[] list, int period)
-        {
-            var result = new double[1 + list.Length];
-            var doubles = stackalloc double[period];
-            var length = list.Length;
-            fixed (double* listPtr = list, resultPtr = result)
-            {
-                double fraction = 1.0 / period;
-                double sum = 0;
-                for (int i = 0; i < period; i++)
-                {
-                    double @double = listPtr[i] * fraction;
-                    doubles[i] = @double;
-                    sum += @double;
-                }
-                resultPtr[0] = sum;
-                int j = period;
-                int k = 0;
-                int index = 0;
-                while (j < length)
-                {
-                    double old = doubles[index];
-                    sum -= old;
-                    double @new = listPtr[j] * fraction;
-                    doubles[index] = @new;
-                    sum += @new;
-                    resultPtr[++k] = sum;
-                    j++;
+            var resultArray = new double[length];
+            fixed (double* list = listArray, double* result = resultArray) {
+                var index = 0;
+                var total = period < length ? period : length;
+                var sum = 0.0;
+                var waste = stackalloc double[total];
+                var fraction = 1.0 / total;
+                foreach (var i = 0; i < length; ++i) {
+                    var d = list[i];
+                    sum += d * fraction;
+                    var offset = index % total;
+                    if (index >= total) {
+                        sum -= waste[offset];
+                    }
+                    waste[offset] = d * fraction;
+                    if (index >= total - 1) {
+                        result[index] = sum;
+                    }
                     index++;
-                    if (index == period)
-                        index = 0;
                 }
             }
-            return result;
+            return resultArray;
         }
     }
 }
