@@ -124,30 +124,25 @@ namespace ChatMaChampionship
             }
         }
 
-        public static unsafe IEnumerable<double> MovingAveragerightfold(double[] listArray, int period)
-        {
+        public static unsafe IEnumerable<double> MovingAveragerightfold(double[] listArray, int period) {
             var length = listArray.Length;
-            var resultArray = new double[length];
+            var total = period < length ? period : length;
+            var resultArray = new double[length + total];
             var resultIndex = 0;
-            fixed (double* list = listArray, result = resultArray)
-            {
+            fixed (double* list = listArray, result = resultArray) {
                 var index = 0;
-                var total = period < length ? period : length;
                 var sum = 0.0;
-                var waste = new double[total];
+                var waste = result + length;
                 var fraction = 1.0 / total;
-                for (var i = 0; i < length; ++i)
-                {
+                for (var i = 0; i < length; ++i) {
                     var d = list[i];
                     sum += d * fraction;
                     var offset = index % total;
-                    if (index >= total)
-                    {
+                    if (index >= total) {
                         sum -= waste[offset];
                     }
                     waste[offset] = d * fraction;
-                    if (index >= total - 1)
-                    {
+                    if (index >= total - 1) {
                         result[resultIndex++] = sum;
                     }
                     index++;
