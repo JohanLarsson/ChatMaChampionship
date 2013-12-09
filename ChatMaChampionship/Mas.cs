@@ -133,7 +133,7 @@ namespace ChatMaChampionship
                 var sum = 0.0;
                 var waste = stackalloc double[total];
                 var fraction = 1.0 / total;
-                foreach (var i = 0; i < length; ++i) {
+                for (var i = 0; i < length; ++i) {
                     var d = list[i];
                     sum += d * fraction;
                     var offset = index % total;
