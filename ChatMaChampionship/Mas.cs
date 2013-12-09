@@ -21,25 +21,25 @@ namespace ChatMaChampionship
 
         public static IEnumerable<double> MovingAverageIlist(IList<double> list, int period)
         {
-            var doubles = new double[period];
+            var window = new double[period];
             double fraction = 1.0 / period;
             double sum = 0;
             for (int i = 0; i < period; i++)
             {
-                double @double = list[i] * fraction;
-                doubles[i] = @double;
-                sum += @double;
+                double d = list[i] * fraction;
+                window[i] = d;
+                sum += d;
             }
             yield return sum;
             int j = period;
             int index = 0;
             while (j < list.Count)
             {
-                double old = doubles[index];
+                double old = window[index];
                 sum -= old;
-                double @new = list[j] * fraction;
-                doubles[index] = @new;
-                sum += @new;
+                double newGuy = list[j] * fraction;
+                window[index] = newGuy;
+                sum += newGuy;
                 yield return sum;
                 j++;
                 index++;
