@@ -16,10 +16,12 @@ namespace ChatMaChampionship
         {
             _competitors = new List<Competitor>
             {
-                new Competitor("Rightfold", (x, p) => Mas.MovingAveragerightfold((double[]) x, p),x=>x.ToArray()),
+                new Competitor("rightfoldEvil", (x, p) => Mas.MovingAveragerightfoldEvil((double[]) x, p),x=>x.ToArray()),
+                new Competitor("rightfoldMoreEvil", (x, p) => Mas.MovingAveragerightfoldMoreEvil((double[]) x, p),x=>x.ToArray()),
+                new Competitor("rightfoldMostEvil", (x, p) => Mas.MovingAveragerightfoldMostEvil((double[]) x, p),x=>x.ToArray()),
                 new Competitor("Travis", (x, p) => Mas.MovingAverageTravis((HashSet<double>) x, p),x=>new HashSet<double>(x)),
                 new Competitor("Johan", (x, p) => Mas.MovingAverageIlist((IList<double>) x, p),x=>x.ToArray()),
-                new Competitor("Kendall", (x, p) => Mas.MovingAverageKendall( x, p),x=>x.ToArray()),
+                //new Competitor("Kendall", (x, p) => Mas.MovingAverageKendall( x, p),x=>x.ToArray()),
             };
         }
 
@@ -36,8 +38,8 @@ namespace ChatMaChampionship
                 Console.WriteLine("Pass " + i);
                 foreach (var competitor in _competitors)
                 {
-                    stopwatch.Restart();
                     var data = competitor.Transform.Invoke(doubles);
+                    stopwatch.Restart();
                     competitor.Code.Invoke(data, p).Count();
                     Console.WriteLine("{0} ({1}, {2}) took {3} ms",competitor.Name, n, p, stopwatch.ElapsedMilliseconds);
                 }
