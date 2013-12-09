@@ -32,7 +32,7 @@ namespace ChatMaChampionship
             Stopwatch stopwatch = Stopwatch.StartNew();
             for (int i = 0; i < 5; i++)
             {
-
+                Console.WriteLine("Pass " + i);
                 foreach (var competitor in _competitors)
                 {
                     stopwatch.Restart();
@@ -50,6 +50,7 @@ namespace ChatMaChampionship
             int p = 35;
             var doubles = RandomDoubles(n).ToArray();
             var expected = Mas.DumbMovingAverage(doubles, p).ToArray();
+            Console.WriteLine("Checking");
             foreach (var competitor in _competitors)
             {
                 var data = competitor.Transform.Invoke(doubles);
