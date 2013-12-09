@@ -41,8 +41,13 @@ namespace ChatMaChampionship
                     var data = competitor.Transform.Invoke(doubles);
                     stopwatch.Restart();
                     competitor.Code.Invoke(data, p).Count();
-                    Console.WriteLine("{0} ({1}, {2}) took {3} ms",competitor.Name, n, p, stopwatch.ElapsedMilliseconds);
+                    competitor.Results.Add(stopwatch.ElapsedMilliseconds);
+
                 }
+            }
+            foreach (var competitor in _competitors)
+            {
+                Console.WriteLine("{0} ({1}, {2}) took min: {3} max: {4} average {5} ms", competitor.Name, n, p, competitor.Results.Min(),competitor.Results.Max(),competitor.Results.Average());
             }
         }
 

@@ -13,6 +13,7 @@ namespace ChatMaChampionship
             Name = name;
             Code = code;
             Transform = transform;
+            Results= new List<double>();
         }
 
         public string Name { get; private set; }
@@ -23,5 +24,7 @@ namespace ChatMaChampionship
         {
             return Code(data,p);
         }
+
+        public List<double> Results { get; private set; } 
     }
 }

@@ -45,7 +45,6 @@
   <ItemGroup>
     <Compile Include="Benchmark.cs" />
     <Compile Include="Competitor.cs" />
-    <Compile Include="ICompetitor.cs" />
     <Compile Include="Mas.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
