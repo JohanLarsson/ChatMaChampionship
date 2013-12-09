@@ -125,9 +125,9 @@ namespace ChatMaChampionship
         }
 
         public static unsafe IEnumerable<double> MovingAveragerightfold(double[] listArray, int period) {
-            var length = list.Length;
+            var length = listArray.Length;
             var resultArray = new double[length];
-            fixed (double* list = listArray, double* result = resultArray) {
+            fixed (double* list = listArray, result = resultArray) {
                 var index = 0;
                 var total = period < length ? period : length;
                 var sum = 0.0;
