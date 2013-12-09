@@ -134,7 +134,7 @@ namespace ChatMaChampionship
                 var index = 0;
                 var total = period < length ? period : length;
                 var sum = 0.0;
-                var waste = stackalloc double[total];
+                var waste = new double[total];
                 var fraction = 1.0 / total;
                 for (var i = 0; i < length; ++i)
                 {
