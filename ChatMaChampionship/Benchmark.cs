@@ -51,7 +51,7 @@ namespace ChatMaChampionship
 
                 }
             }
-            foreach (var competitor in _competitors)
+            foreach (var competitor in _competitors.OrderBy(x=>x.Results.Average()))
             {
                 Console.WriteLine("{0} ({1}, {2}) took min: {3} max: {4} average {5} ms", competitor.Name, n, p, competitor.Results.Min(),competitor.Results.Max(),competitor.Results.Average());
             }
