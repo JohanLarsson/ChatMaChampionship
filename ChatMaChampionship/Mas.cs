@@ -78,29 +78,31 @@ namespace ChatMaChampionship
             }
         }
 
-        public static IEnumerable<double> MovingAverageTravis(HashSet<double> list, int period)
+        public static IEnumerable<double> MovingAverageTravis(double[] list, int period)
         {
-            int index = 0;
-            int total = period < list.Count ? period : list.Count;
-            double sum = 0;
-            double[] waste = new double[total];
-            double fraction = 1.0 / total;
-            foreach (double d in list)
-            {
-                sum += d * fraction;
-                int offset = index % total;
-                if (index >= total)
-                {
-                    sum -= waste[offset];
-                }
-                waste[offset] = d * fraction;
-                if (index >= total - 1)
-                {
-                    yield return sum;
-                }
-                index++;
-            }
+        	int count = list.Count();
+        	int total = period < count ? period : count;
+        	int retSize = count - total > total ? 1 + count - total : total;
+        	double sum = 0;
+        	double[] waste = new double[total];
+        	double fraction = 1.0 / total;
+        	double[] ret = new double[retSize];
+        	int retIndex = 0;
+        	for( int index = 0; index < count; index++ )
+        	{
+        		sum += list[index] * fraction;
+        		int offset = index % total;
+        		if( index >= total ){
+        			sum -= waste[offset];
+        		}
+        		waste[offset] = list[index] * fraction;
+        		if( index >= total-1 ){
+        			ret[retIndex++] = sum;
+        		}
+        	}
+        	return ret;
         }
+
 
         public static IEnumerable<double> MovingAverageKendall(IEnumerable<double> list, int window)
         {
