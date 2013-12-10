@@ -88,16 +88,21 @@ namespace ChatMaChampionship
         	double fraction = 1.0 / total;
         	double[] ret = new double[retSize];
         	int retIndex = 0;
+        	bool shrt = false;
+        	bool crct = false;
         	for( int index = 0; index < count; index++ )
         	{
-        		sum += list[index] * fraction;
+        		double d = list[index] * fraction;
+        		sum += d;
         		int offset = index % total;
-        		if( index >= total ){
+        		if( shrt || index >= total ){
         			sum -= waste[offset];
+        			shrt = true;
         		}
-        		waste[offset] = list[index] * fraction;
-        		if( index >= total-1 ){
+        		waste[offset] = d;
+        		if( crct || index >= total-1 ){
         			ret[retIndex++] = sum;
+        			crct = true;
         		}
         	}
         	return ret;
