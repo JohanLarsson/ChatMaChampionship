@@ -22,6 +22,7 @@ namespace ChatMaChampionship
                 new Competitor("rightfoldTerriblyEvil", (x, p) => Mas.MovingAveragerightfoldTerriblyEvil((double[]) x, p),x=>x.ToArray()),
                 new Competitor("Travis", (x, p) => Mas.MovingAverageTravis((HashSet<double>) x, p),x=>new HashSet<double>(x)),
                 new Competitor("Johan", (x, p) => Mas.MovingAverageIlist((IList<double>) x, p),x=>x.ToArray()),
+                new Competitor("Reed", (x, p) => Mas.MovingAverageReed((double[]) x, p),x=>x.ToArray()),
                 //new Competitor("Kendall", (x, p) => Mas.MovingAverageKendall( x, p),x=>x.ToArray()),
             };
         }

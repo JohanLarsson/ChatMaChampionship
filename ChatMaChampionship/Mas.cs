@@ -231,5 +231,36 @@ namespace ChatMaChampionship
             }
             return new ArraySegment<double>(resultArray, 0, resultIndex);
         }
+
+        public static unsafe IEnumerable<double> MovingAverageReed(double[] listArray, int period)
+        {
+            var length = listArray.Length;
+            var total = Math.Min(period, length);
+            var results = new double[length + 1 - total];
+            fixed (double* list = listArray, result = results, waste = new double[total])
+            {
+                var index = 0;
+                var sum = 0.0;
+                var fraction = 1.0 / total;
+                for (var i = 0; i < length; ++i)
+                {
+                    var d = list[i];
+                    sum += d * fraction;
+                    var offset = index % total;
+                    if (index >= total)
+                    {
+                        sum -= waste[offset];
+                    }
+                    waste[offset] = d * fraction;
+                    if (index >= total - 1)
+                    {
+                        result[index] = sum;
+                    }
+                    index++;
+                }
+            }
+
+            return results;
+        }
     }
 }
