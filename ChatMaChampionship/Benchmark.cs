@@ -34,6 +34,10 @@ namespace ChatMaChampionship
         {
             double[] doubles = RandomDoubles(n).ToArray();
             Stopwatch stopwatch = Stopwatch.StartNew();
+            foreach (var competitor in _competitors)
+            {
+                competitor.Results.Clear();
+            }
             for (int i = 0; i < 5; i++)
             {
                 Console.WriteLine("Pass " + i);
