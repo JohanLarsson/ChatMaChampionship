@@ -204,34 +204,5 @@ namespace ChatMaChampionship
             }
             return new ArraySegment<double>(resultArray, 0, resultIndex);
         }
-
-        public static unsafe IEnumerable<double> MovingAveragerightfoldMoreEvilThanMoreEvilButLessEvilThanMostEvil(double[] listArray, int period) {
-            var length = listArray.Length;
-            var total = period < length ? period : length;
-            var resultArray = new double[length + total];
-            var resultIndex = 0;
-            fixed (double* list = listArray, result = resultArray) {
-                var index = 0;
-                var sum = 0.0;
-                var waste = result + length;
-                var fraction = 1.0 / total;
-                for (var i = 0; i < length; ++i) {
-                    var d = list[i];
-                    sum += d * fraction;
-                    var offset = index % total;
-                    if (index >= total) {
-                        sum -= waste[offset];
-                    }
-                    waste[offset] = d * fraction;
-                    if (index >= total - 1) {
-                        result[resultIndex++] = sum;
-                    }
-                    index++;
-                }
-            }
-            var realResult = new double[resultIndex];
-            Array.Copy(resultArray, 0, realResult, 0, resultIndex);
-            return realResult;
-        }
     }
 }
