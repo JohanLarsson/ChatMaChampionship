@@ -238,27 +238,36 @@ namespace ChatMaChampionship
         {
             var length = listArray.Length;
             var total = Math.Min(period, length);
+            var lengthCheck = total - 1;
+            var resultCheck = total - 2;
             var results = new double[length + 1 - total];
             fixed (double* list = listArray, result = results, waste = new double[total])
             {
                 var index = 0;
                 var sum = 0.0;
                 var fraction = 1.0 / total;
+                var offsetIndex = 0;
                 for (var i = 0; i < length; ++i)
                 {
                     var d = list[i];
                     sum += d * fraction;
-                    var offset = index % total;
-                    if (index >= total)
+
+                    if (offsetIndex == total)
+                        offsetIndex = 0;
+
+                    if (index > lengthCheck)
                     {
-                        sum -= waste[offset];
+                        sum -= waste[offsetIndex];
                     }
-                    waste[offset] = d * fraction;
-                    if (index >= total - 1)
+
+                    waste[offsetIndex] = d * fraction;
+                    if (index > resultCheck)
                     {
-                        result[index] = sum;
+                        result[index - lengthCheck] = sum;
                     }
-                    index++;
+
+                    ++index;
+                    ++offsetIndex;
                 }
             }
 
